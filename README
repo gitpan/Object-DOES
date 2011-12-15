@@ -1,0 +1,86 @@
+NAME
+    Object::DOES - override UNIVERSAL::DOES easily
+
+SYNOPSIS
+     {
+       package Test::Mock::LWP::Simple;
+       use Object::DOES;
+       our @DOES = qw(LWP::Simple);
+       sub get { ... }
+       sub head { ... }
+     }
+ 
+     foreach my $package (qw/LWP::Simple Test::Mock::LWP::Simple CGI/)
+     {
+       if ($package->DOES('LWP::Simple'))
+       {
+         say "$package does LWP::Simple";
+       }
+    }
+
+DESCRIPTION
+    UNIVERSAL says: *"DOES" and "isa" are similar, in that if either is
+    true, you know that the object or class on which you call the method can
+    perform specific behavior. However, "DOES" is different from "isa" in
+    that it does not care how the invocant performs the operations, merely
+    that it does. ("isa" of course mandates an inheritance relationship.
+    Other relationships include aggregation, delegation, and mocking.)*
+
+    In Perl 5.10, "UNIVERSAL::DOES" was introduced, which recognises that
+    you sometimes need to indicate (and test) whether a class performs a
+    particular role, but without caring if it uses inheritance to achieve
+    it. (In fact, it is almost always more useful to check "DOES" than
+    "isa"!)
+
+    However, the built-in "UNIVERSAL::DOES" is essentially just a clone of
+    "UNIVERSAL::isa". The intention is that if you want to indicate your
+    module does a role, you must provide a custom "DOES" method for your
+    package. Fair enough, but this leads to boiler-plate code along the
+    lines of:
+
+      sub DOES
+      {
+        my ($invocant, $role) = @_;
+        return 1 if $role eq 'Foo::Version1';
+        return 1 if $role eq 'Foo::Version2';
+        return $invocant->SUPER::DOES($role);
+      }
+
+    But you have to be careful to get things right. At first glance the code
+    above looks fine. But imagine our package also inherits from two other
+    packages Bar and Baz. And imagine that Bar and Baz both provide custom
+    "DOES" methods of their own. "SUPER::DOES" will only call one of those
+    custom "DOES" methods.
+
+    This module should help you avoid the headaches of considering all the
+    edge cases. All you need to do is:
+
+      use Object::DOES;
+      our @DOES = qw(Role1 Role2 Role3); # etc
+
+    There is also an alternative syntax which may be more attractive to some
+    people:
+
+      use Object::DOES -role => [qw/Role1 Role2 Role3/];
+
+BUGS
+    Please report any bugs to
+    <http://rt.cpan.org/Dist/Display.html?Queue=Object-DOES>.
+
+SEE ALSO
+    UNIVERSAL, UNIVERSAL::DOES.
+
+AUTHOR
+    Toby Inkster <tobyink@cpan.org>.
+
+COPYRIGHT AND LICENCE
+    This software is copyright (c) 2011 by Toby Inkster.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
+DISCLAIMER OF WARRANTIES
+    THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+    MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
