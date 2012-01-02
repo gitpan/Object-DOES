@@ -29,4 +29,5 @@ meta/makefile.ttl
 README
 t/01basic.t
 t/02does.t
+t/03role.t
 SIGNATURE                                Public-key signature (added by MakeMaker)

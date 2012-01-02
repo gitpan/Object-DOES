@@ -15,3 +15,17 @@ dist:v_0-001
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Object-DOES-0.001.tar.gz> ;
 	rdfs:label      "Initial release" .
 
+dist:project :release dist:v_0-002 .
+dist:v_0-002
+	a               :Version ;
+	dc:issued       "2012-01-02"^^xsd:date ;
+	:revision       "0.002"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Object-DOES-0.002.tar.gz> ;
+	dcs:changeset [
+		dcs:versus dist:v_0-001 ;
+		dcs:item   [ rdfs:label "Give example of use with Object::Role."@en ; a dcs:Addition, dcs:Documentation ] ;
+		dcs:item   [ rdfs:label "Mention caveats with Perl < 5.10."@en ; a dcs:Addition, dcs:Documentation ] ;
+		dcs:item   [ rdfs:label "Implement caveats with Perl < 5.10 for test cases."@en ; a dcs:Packaging ] ;
+		dcs:item   [ rdfs:label "Test previously undocumented behaviour with regard to Object::Role interaction."@en ; a dcs:Packaging ] ;
+		dcs:item   [ rdfs:label "Fix Object::Role interaction in Perl < 5.10."@en ; a dcs:Packaging ]
+		] .

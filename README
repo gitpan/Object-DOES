@@ -63,6 +63,50 @@ DESCRIPTION
 
       use Object::DOES -role => [qw/Role1 Role2 Role3/];
 
+USING WITH OTHER MODULES
+  Object::Role
+    Any roles that use the framework provided by Object::Role will
+    automatically play nice with Object::DOES. For example:
+
+      {
+        package Example::MyRole;
+        use base qw/Object::Role/;
+        sub import {
+          ...
+          __PACKAGE__->install_method(foobar => $coderef, $caller);
+        }
+      }
+  
+      {
+        package Example::MyClass;
+        use Example::MyRole;
+        use Object::DOES -role => 'Example::MyOtherRole';
+        sub new { ... }
+      }
+  
+      my $obj = Example::MyClass->new;
+  
+      use Test::More tests => 5;
+      ok $new->isa('Example::MyClass');
+      ok $new->does('Example::MyClass');
+      ok $new->does('Example::MyRole');
+      ok $new->does('Example::MyOtherRole');
+      ok $new->can('foobar');
+
+CAVEATS
+    This module is designed to help classes override UNIVERSAL::DOES, but it
+    makes no assumption that UNIVERSAL::DOES actually exists.
+    UNIVERSAL::DOES was introduced in Perl 5.10, but there is a CPAN module
+    UNIVERSAL::DOES that provides an implementation for earlier versions of
+    Perl. The simple shim
+
+      *UNIVERSAL::DOES = sub { shift->isa(@_) }
+          unless defined &UNIVERSAL::DOES;
+
+    ... is often sufficient if you don't wish to introduce a depedency on
+    UNIVERSAL::DOES or Perl 5.10. However, Object::DOES will *not* do this
+    for you.
+
 BUGS
     Please report any bugs to
     <http://rt.cpan.org/Dist/Display.html?Queue=Object-DOES>.

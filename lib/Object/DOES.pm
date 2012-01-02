@@ -5,7 +5,7 @@ use strict;
 
 BEGIN {
 	$Object::DOES::AUTHORITY = 'cpan:TOBYINK';
-	$Object::DOES::VERSION   = '0.001';
+	$Object::DOES::VERSION   = '0.002';
 }
 
 use Class::ISA qw//;
@@ -39,16 +39,22 @@ sub import
 		
 		foreach (Class::ISA::super_path($package), 'UNIVERSAL')
 		{
-			return 4 if $_->DOES($role);
+			my $method = $_->can('DOES');
+			next unless $method;
+			return 4 if $_->$method($role);
 		}
 		
 		return 5 if $invocant->isa($role);
 		
-		if ($role->DOES('Object::Role') and (my $check = $role->can('has_consumer')))
+		if ($role->isa('Object::Role')
+		or do { my $d = $role->can('DOES'); (defined $d) ? $role->$d('Object::Role') : 0 })
 		{
-			foreach (Class::ISA::super_path($package), 'UNIVERSAL')
+			if (my $check = $role->can('has_consumer'))
 			{
-				return 6 if $role->$check($_);
+				foreach ($package, Class::ISA::super_path($package), 'UNIVERSAL')
+				{
+					return 6 if $role->$check($_);
+				}
 			}
 		}
 		
@@ -131,6 +137,53 @@ There is also an alternative syntax which may be more attractive to
 some people:
 
   use Object::DOES -role => [qw/Role1 Role2 Role3/];
+
+=head1 USING WITH OTHER MODULES
+
+=head2 Object::Role
+
+Any roles that use the framework provided by L<Object::Role> will
+automatically play nice with Object::DOES. For example:
+
+  {
+    package Example::MyRole;
+    use base qw/Object::Role/;
+    sub import {
+      ...
+      __PACKAGE__->install_method(foobar => $coderef, $caller);
+    }
+  }
+  
+  {
+    package Example::MyClass;
+    use Example::MyRole;
+    use Object::DOES -role => 'Example::MyOtherRole';
+    sub new { ... }
+  }
+  
+  my $obj = Example::MyClass->new;
+  
+  use Test::More tests => 5;
+  ok $new->isa('Example::MyClass');
+  ok $new->does('Example::MyClass');
+  ok $new->does('Example::MyRole');
+  ok $new->does('Example::MyOtherRole');
+  ok $new->can('foobar');
+
+=head1 CAVEATS
+
+This module is designed to help classes override UNIVERSAL::DOES, but it
+makes no assumption that UNIVERSAL::DOES actually exists. UNIVERSAL::DOES
+was introduced in Perl 5.10, but there is a CPAN module L<UNIVERSAL::DOES>
+that provides an implementation for earlier versions of Perl. The simple
+shim
+
+  *UNIVERSAL::DOES = sub { shift->isa(@_) }
+      unless defined &UNIVERSAL::DOES;
+
+... is often sufficient if you don't wish to introduce a depedency on
+L<UNIVERSAL::DOES> or Perl 5.10. However, Object::DOES will I<not> do
+this for you.
 
 =head1 BUGS
 

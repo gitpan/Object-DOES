@@ -1,5 +1,8 @@
 use Test::More tests => 30;
 
+*UNIVERSAL::DOES = sub{ shift->isa(@_) }
+	unless defined &UNIVERSAL::DOES;
+
 {
 	package Local::Grandparent;
 	sub DOES {

@@ -14,12 +14,12 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 0a19ef5f82c1555adbc061bdbff8296d7c3809e2 Changes
-SHA1 f3296a09eb07898f3ba6dd0ece615dafc1b57e16 LICENSE
-SHA1 f85bced540346587787691a184ea2b75ce9d2a77 MANIFEST
-SHA1 cd3f8c8087fee741e709c3e4a1bd9b3a317bd670 META.yml
+SHA1 b103b28c63a79167459b85802fb06c8dbe5fac7f Changes
+SHA1 1d54db0b8134eb1c8ea0cee400f9dc612bcaa61a LICENSE
+SHA1 f7e01129696bcb3922dfddd0e3811959c281df11 MANIFEST
+SHA1 f29577f796c285dfe0c89accdc2ac6af44433ae9 META.yml
 SHA1 7150e5e086ef493e1e527a1eeec44a8344b80db6 Makefile.PL
-SHA1 82e7224e08fceaa6b4eecc8a2322b6778d9de95e README
+SHA1 1b3aa261f0b39085fdde3f0c8366d8822aa7ea04 README
 SHA1 5d94bc10deff1dd74e4bc5dfa6fc015e39271f15 inc/Module/AutoInstall.pm
 SHA1 40106479d4e07f379cb82ca1d69fca92e3a40f47 inc/Module/Install.pm
 SHA1 34a24a530ecf0365cc02e4150b06c9bed702a441 inc/Module/Install/AutoInstall.pm
@@ -39,16 +39,17 @@ SHA1 6b807287940754cc31a3db59f2b22e363d5525be inc/Module/Package/Dist/RDF.pm
 SHA1 775bd24f2fdbb6dce51a8b5b0cdb01fccfce83c4 inc/Scalar/Util.pm
 SHA1 b1b664983568bf822c327599eb88e223483ae96a inc/Scalar/Util/PP.pm
 SHA1 eef6bff62046bff2ce08ba132d0b58fba30f40b4 inc/YAML/Tiny.pm
-SHA1 48c6d884da774e6ede2073471df742bcf73f9b6a lib/Object/DOES.pm
-SHA1 4151bc16588068d468decb712f9a61d0a05d7529 meta/changes.ttl
+SHA1 d8bfa5c55d9f2bad103c2aa316f14bd53206c993 lib/Object/DOES.pm
+SHA1 e5a3495f2ca932fc5e8e64582ade46907c460b2f meta/changes.ttl
 SHA1 b6feef8b52fa17055dd8d886ca7df6bb8b6a0c5b meta/doap.ttl
 SHA1 5ef9332d5af8e1d6aae1875a95e4dae792e54e4d meta/makefile.ttl
 SHA1 50b0603a5fcdd9792fe328d6b3c7ae800ea1e107 t/01basic.t
-SHA1 d67165b8329b89c5a9fddc5b839c35bebec0872c t/02does.t
+SHA1 0abe42c195a25dfdea50a62fd12467b6d52d06e1 t/02does.t
+SHA1 04068e41480b4e91b2617ec9b1475ed352658b72 t/03role.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk7pvYQACgkQzr+BKGoqfTnPcgCfZ/yZ9kuBI6napqgeLdhpZN7e
-oWQAoJWzrjMKEz6KSdn/5nyfLlffMXyx
-=qwE2
+iEYEARECAAYFAk8BtgkACgkQzr+BKGoqfTkduACePG8KPubud0ZrxqVtDAHSrQnP
+QRgAn0AwQFrxBkve/O3/HIoOgQdcNsGf
+=5Voc
 -----END PGP SIGNATURE-----
